@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="lib/VSS.SDK.min.js"></script>
+    </head>
+    <body>
+        <div id="name"></div>
+        <script type="text/javascript">
+            VSS.init();
+            VSS.ready(function () {
+                document.getElementById("name").innerText = VSS.getWebContext().user.name;
+            });
+        </script>
+    </body>
+</html>

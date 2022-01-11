@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="lib/VSS.SDK.min.js"></script>
+</head>
+
+<body>
+    <script type="text/javascript">
+        VSS.init({
+            explicitNotifyLoaded: true,
+            usePlatformScripts: true,
+            usePlatformStyles: true
+        });
+
+        VSS.ready(function () {
+
+            VSS.require(["TFS/WorkItemTracking/Services"], function (_WorkItemServices) {
+                console.log("Inside VSS REQUIRE.");
+                // Get the WorkItemFormService.  This service allows you to get/set fields/links on the 'active' work item (the work item
+                // that currently is displayed in the UI).
+                console.log("GET WORK ITEM FORM SERVICE");
+
+                function getWorkItemFormService() {
+                    console.log("Inside GET WORK ITEM FORM SERVICE!");
+                    return _WorkItemServices.WorkItemFormService.getService();
+                }
+
+                // Register a listener for the work item page contribution.
+                VSS.register(VSS.getContribution().id, function () {
+
+                    return {
+                        // Called when the active work item is modified
+                        onFieldChanged: function (args) {
+                            //alert("Field changed");
+                        },
+
+                        // Called when a new work item is being loaded in the UI
+                        onLoaded: function (args) {
+                            //alert("Loaded");
+
+                            getWorkItemFormService().then(function (service) {
+                                service.getFieldValues(["System.Id",
+                                    "System.Title"
+                                ]).then(
+                                    function (value) {
+                                        console.log("WORK ITEM VALUES : " + JSON.stringify(value));
+                                        
+                                        var userName = VSS.getWebContext().user.name;
+                                        var workItemId = value["System.Id"];
+
+                                        alert("User: " + userName + " is working on: " + workItemId);
+
+                                    });
+                            });
+                        },
+
+                        // Called when the active work item is being unloaded in the UI
+                        onUnloaded: function (args) {
+                            //alert("Unloaded");
+                        },
+
+                        // Called after the work item has been saved
+                        onSaved: function (args) {
+                            //alert("Saved");
+                        },
+
+                        // Called when the work item is reset to its unmodified state (undo)
+                        onReset: function (args) {
+                            //alert("Reset");
+                        },
+
+                        // Called when the work item has been refreshed from the server
+                        onRefreshed: function (args) {
+                            //alert("Refreshed");
+                        }
+                    }
+                });
+
+                VSS.notifyLoadSucceeded();
+            });
+        });
+    </script>
+</body>
+
+</html>

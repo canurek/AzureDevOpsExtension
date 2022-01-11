@@ -1,0 +1,94 @@
+{
+    "manifestVersion": 1,
+    "id": "azure-devops-extension",
+    "publisher": "Canrek",
+    "version": "1.0.0",
+    "name": "Azure DevOps Extension",
+    "scopes": [
+      "vso.work",
+      "vso.dashboards_manage"
+    ],
+    "description": "A sample extension",
+    "public": false,
+    "categories": [
+      "Azure Boards"
+    ],
+    "targets": [
+      {
+        "id": "Microsoft.VisualStudio.Services"
+      }
+    ],
+    "tags": [
+      "Work Items",
+      "Widget"
+    ],
+    "contributions": [
+      {
+        "id": "HubGroupId",
+        "type": "ms.vss-web.hub-group",
+        "targets": [
+          "ms.vss-web.project-hub-groups-collection"
+        ],
+        "properties": {
+          "name": "Hub Group",
+          "order": 100
+        }
+      },
+      {
+        "id": "Item1",
+        "type": "ms.vss-web.hub",
+        "targets": [
+          ".HubGroupId"
+        ],
+        "properties": {
+          "order": 1,
+          "name": "Item 1",
+          "uri": "extension.html"
+        }
+      },
+      {
+        "id": "Item2",
+        "type": "ms.vss-web.hub",
+        "targets": [
+          ".HubGroupId"
+        ],
+        "properties": {
+          "order": 2,
+          "name": "Item 2",
+          "uri": "extension2.html"
+        }
+      },
+      {
+        "id": "WorkItemExtension",
+        "type": "ms.vss-work-web.work-item-form-page",
+        "targets": [
+          "ms.vss-work-web.work-item-form"
+        ],
+        "properties": {
+          "group": "contributed",
+          "iconName": "Stopwatch",
+          "name": "Work Item Extension",
+          "uri": "extension3.html"
+        }
+      }
+    ],
+    "files": [
+      {
+        "path": "extension.html",
+        "addressable": true
+      },
+      {
+        "path": "extension2.html",
+        "addressable": true
+      },
+      {
+        "path": "extension3.html",
+        "addressable": true
+      },
+      {
+        "path": "node_modules/vss-web-extension-sdk/lib",
+        "addressable": true,
+        "packagePath": "lib"
+      }
+    ]
+  }
